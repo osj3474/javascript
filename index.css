@@ -1,0 +1,43 @@
+body {
+  background-color: #374151;
+}
+
+.clock {
+  font-size: 50px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+input {
+  width: 300px;
+  height: 30px;
+  font-size: 15px;
+}
+
+form {
+  display: none;
+}
+
+.greetings {
+  display: none;
+}
+
+.showing {
+  display: block;
+}
+
+.greetings {
+  font-size: 25px;
+  color: white;
+}
+
+.js-todo {
+  display: block;
+}
+
+.js-todoList {
+  font-size: 18px;
+  color: white;
+}

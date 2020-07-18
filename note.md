@@ -180,3 +180,233 @@ const calculator = {
 
 console.log(calculator.plus(5, 5));
 ```
+
+## DOM function
+
+html파일에 title이라는 id로 This works! 를 출력하는 내용이 있다고 합시다.
+
+```html
+<h1 id="title">This works!</h1>
+```
+
+이 때, css라면 #title로 접근해서 스타일을 줍니다.
+그러면, javascript라면 어떻게 줄까요?
+우선, document가 html 그 자체를 나타내는 객체임을 알고 있어야 합니다.
+
+```javascript
+const title = document.getElementById("title");
+```
+
+이렇게 document 객체로 get해서 title이라는 객체로 This works! 를 받아올 수 있습니다.
+
+이렇게 받아 온 객체를 DOM (Document Object Module) 이라고 하고, 수정하는 방법은 객체의 function을 사용하는 것과 동일합니다.
+
+```javascript
+title.innerHTML = "Hi! From JS";
+```
+
+css가 하는 것처럼 스타일도 바꿀 수 있습니다.
+
+#### CSS
+
+```css
+#title {
+  color: red;
+}
+```
+
+#### Javascript
+
+```javascript
+const title = document.getElementById("title");
+title.style.color = red;
+```
+
+## 앞으로 많이 사용할 Document function
+
+### querySelector
+
+querySelector는 노드의 첫 번째 자식을 반환합니다. 선택자는 css와 동일하게 합니다.
+
+```javascript
+const title = document.querySelector("#title");
+title.style.color = red;
+```
+
+## Event handlers
+
+자바스크립트로 html에 접근해서 스타일을 바꿀 수 있다 하더라도, 자바스크립트의 주된 역할은 그것이 아닙니다. 바로, 이벤트에 반응하는 것입니다.
+
+예를 들어, 윈도우의 크기를 조절할 때마다 console에 해당 사실을 출력하는 이벤트를 처리하는 경우를 살펴봅시다.
+
+```javascript
+function handleResize() {
+  console.log("I have been resized");
+}
+
+window.addEventListener("resize", handleResize);
+```
+
+window라는 객체는 resize 이벤트가 발생했을 때, handleResize라는 함수를 호출하는 예제입니다. (이벤트로 지정되어 있는 이름들이 resize, submit, click과 같은 것들이 있습니다.)
+이 때, handleResize를 호출할 때, ()를 붙이면 안됩니다. ()를 붙인다는 것은 그 함수를 바로 실행하겠다는 의미이고, ()를 뺐다면, 이벤트 발생시 호출하겠다는 의미가 됩니다.
+
+_cf) event_
+
+```javascript
+function handleResize(event) {
+  console.log(event);
+}
+
+window.addEventListener("resize", handleResize);
+```
+
+'event라는 파라미터를 넘겨주지 않았는데' 라고 생각할 수 있는데, event를 다루는 함수를 만들면, 자바스크립트는 event를 다룰 event객체를 호출해서 다루게 됩니다.
+
+## == vs. === 그리고 null vs.undefined
+
+### == 과 ===
+
+#### 1. ==
+
+equal operator로, '값' 이 같은지 확인하는 것입니다.
+
+```javascript
+if (1 == "1") {
+  console.log("true");
+} else {
+  console.log("false");
+}
+```
+
+결과는 **_true_**
+
+#### 2. ===
+
+strcit equal operator로, '값'과 '타입'이 같은지 확인하는 것입니다.
+
+```javascript
+if (1 === "1") {
+  console.log("true");
+} else {
+  console.log("false");
+}
+```
+
+결과는 **_false_**
+
+### null과 undefined
+
+#### 1. null
+
+명시적으로 값이 없음을 표현한 것입니다.
+
+#### 2. undefined
+
+정의나 초기화하지 않아 값이 없음을 표현한 것입니다.
+
+_cf) AND연산자 : &&, OR연산자 : ||_
+
+_cf) prompt_
+오래된 명령어로, 거의 사용하지 않는 방식입니다.
+
+```javascript
+const age = prompt("How old are you?");
+console.log(age);
+```
+
+## Toggle 예제 (1)
+
+```javascript
+const title = document.querySelector("#title");
+
+const BASE_COLOR = "rgb(52, 73, 94)";
+const OTHER_COLOR = "#7f8c8d";
+
+function handleClick() {
+  const currentColor = title.style.color;
+  if (currentColor === BASE_COLOR) {
+    title.style.color = OTHER_COLOR;
+  } else {
+    title.style.color = BASE_COLOR;
+  }
+}
+
+function init() {
+  title.style.color = BASE_COLOR;
+  title.addEventListener("click", handleClick);
+}
+
+init();
+```
+
+_cf) click대신, mouseenter도 유용하게 쓸 수 있습니다._
+
+## wifi 연결 상태 예제
+
+```javascript
+function handleOnline() {
+  console.log("Wifi connected");
+}
+
+function handleOffline() {
+  console.log("Wifi disconnected");
+}
+
+window.addEventListener("online", handleOnline);
+window.addEventListener("offline", handleOffline);
+```
+
+## 이벤트의 근원, MDN
+
+javascript dom event mdn을 검색해서 이벤트를 확인합시다. 발생하는 모든 이벤트에 대한 정보를 보여주는 곳입니다.
+
+## Toggle 예제 (2) - classList
+
+하나의 객체로 contains, add, remove 등의 함수를 사용할 수 있습니다.
+다음은 toggle의 또 하나의 방법입니다.
+
+**index.css**
+
+```css
+.btn {
+  cursor: pointer;
+  color: #161616;
+  font-size: 50px;
+}
+
+.clicked {
+  color: #279f6e;
+}
+```
+
+**index.js**
+
+```javascript
+const title = document.querySelector("#title");
+const CLICKED_NAME = "clicked";
+
+function handleClicked() {
+  const hasName = title.classList.contains(CLICKED_NAME);
+  if (hasName) {
+    title.classList.remove(CLICKED_NAME);
+  } else {
+    title.classList.add(CLICKED_NAME);
+  }
+  console.log(title);
+}
+
+title.addEventListener("click", handleClicked);
+```
+
+## Toggle 예제 (3) - classList
+
+```javascript
+const title = document.querySelector("#title");
+const CLICKED_NAME = "clicked";
+
+function handleClicked() {
+  title.classList.toggle(CLICKED_NAME);
+}
+
+title.addEventListener("click", handleClicked);
+```
